@@ -1,5 +1,8 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core";
 import React from "react";
+import {useDispatch} from "react-redux";
+import {Dispatch} from "redux";
+import {loadErrors} from "../redux/Errors";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -23,6 +26,10 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const LatestErrors: React.FC = () => {
     const classes = useStyles();
+
+    const dispatch: Dispatch = useDispatch();
+
+    dispatch(loadErrors());
 
     return (
         <div className={classes.root}>

@@ -10,7 +10,7 @@ export interface DashboardState {
 }
 
 
-const initialState: DashboardState = { selectedComponent: DashboardComponents.Dashboard, isOpen: false };
+export const initialState: DashboardState = { selectedComponent: DashboardComponents.Dashboard, isOpen: false };
 
 const dashboardSlice = createSlice({
     name: 'dashboard',

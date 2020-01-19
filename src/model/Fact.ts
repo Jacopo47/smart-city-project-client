@@ -1,6 +1,6 @@
 import {Moment} from "moment";
 
-export  interface Facts {
+export interface Facts {
     facts: Fact[]
 }
 
