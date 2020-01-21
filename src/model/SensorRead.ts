@@ -1,7 +1,7 @@
 import {Moment} from "moment";
 
 export interface SensorRead {
-    id: String,
+    id: string,
     dateTime: Moment,
     name: string,
     temperature: number,

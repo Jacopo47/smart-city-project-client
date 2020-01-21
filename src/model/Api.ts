@@ -1,28 +1,21 @@
-import 'isomorphic-fetch'
+import 'fetch'
 
 
-const API_ROOT = 'http://localhost:4700/'
+const API_ROOT = '//localhost:4700/';
 
 function callApi(endpoint: string) {
-    const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
+    const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
     return fetch(fullUrl)
-        .then(response =>
-            response.json().then(json => ({ json, response }))
-        ).then(({ json, response }) => {
+        .then(response => {
             if (!response.ok) {
-                return Promise.reject(json)
+                return Promise.reject({
+                    message: 'Errore durante la richiesta'
+                });
             }
 
-
-            return Object.assign({},
-                json, response
-            )
-        })
-        .then(
-            response => ({response}),
-            error => ({error: error.message || error || 'Something bad happened'})
-        ).then(Promise.reject)
+            return response.json();
+        }).catch(err => Promise.reject({error: err.message}))
 
 }
 

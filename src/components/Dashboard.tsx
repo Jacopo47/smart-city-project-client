@@ -4,6 +4,8 @@ import clsx from "clsx";
 import DeviceMap from "./DeviceMap";
 import LatestErrors from "./LatestErrors";
 import LatestInformation from "./LatestInformation";
+import {useDispatch} from "react-redux";
+import {loadErrors} from "../redux/Errors";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -21,7 +23,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 240,
+        height: 500,
     }
 }));
 
@@ -30,23 +32,23 @@ const Dashboard: React.FC = () => {
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+    const dispatch = useDispatch()
+    dispatch(loadErrors());
+
     return (
         <div className={classes.root}>
             <Container maxWidth="lg" className={classes.container}>
                 <Grid container spacing={3}>
-                    {/* Chart */}
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={fixedHeightPaper}>
                             <DeviceMap />
                         </Paper>
                     </Grid>
-                    {/* Recent Deposits */}
                     <Grid item xs={12} md={4} lg={3}>
                         <Paper className={fixedHeightPaper}>
                             <LatestErrors />
                         </Paper>
                     </Grid>
-                    {/* Recent Orders */}
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <LatestInformation />
