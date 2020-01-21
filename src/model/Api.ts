@@ -21,3 +21,4 @@ function callApi(endpoint: string) {
 
 // api services
 export const fetchErrors = () => callApi(`api/errors`);
+export const fetchSensorInfo = () => callApi('api/zone/last');

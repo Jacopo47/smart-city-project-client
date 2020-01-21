@@ -6,6 +6,8 @@ import LatestErrors from "./LatestErrors";
 import LatestInformation from "./LatestInformation";
 import {useDispatch} from "react-redux";
 import {loadErrors} from "../redux/Errors";
+import {loadSensorInfo} from "../redux/SensorInformation";
+import WebSocketClient from "./WebSocketClient";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -32,8 +34,9 @@ const Dashboard: React.FC = () => {
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     dispatch(loadErrors());
+    dispatch(loadSensorInfo());
 
     return (
         <div className={classes.root}>
@@ -41,25 +44,25 @@ const Dashboard: React.FC = () => {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={fixedHeightPaper}>
-                            <DeviceMap />
+                            <DeviceMap/>
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={4} lg={3}>
                         <Paper className={fixedHeightPaper}>
-                            <LatestErrors />
+                            <LatestErrors/>
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <LatestInformation />
+                            <LatestInformation/>
                         </Paper>
                     </Grid>
                 </Grid>
             </Container>
+            <WebSocketClient/>
         </div>
     )
 };
-
 
 
 export default Dashboard

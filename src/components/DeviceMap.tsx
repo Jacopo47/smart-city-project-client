@@ -2,15 +2,15 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core";
 import React from "react";
 import {SensorRead} from "../model/SensorRead";
 import MapGL, {FullscreenControl, Marker, NavigationControl, Popup} from 'react-map-gl';
-import {useDispatch, useSelector} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {RootState} from "../app/rootReducer";
 import {Dispatch} from "redux";
 import {setPopupInfo, updateViewport, Viewport} from "../redux/MapInfo";
 import moment from "moment";
+import {SensorInfoState} from "../redux/SensorInformation";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
-    root: {},
     fullscreenControlStyle: {
         position: 'absolute',
         top: 0,
@@ -37,7 +37,7 @@ const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,
 
 const SIZE = 20;
 
-const getPins = (data: SensorRead[]) => {
+const getPins = (data: SensorRead[], onClick: (value: SensorRead) => void) => {
     return data.map(read => (
         <Marker key={read.id} longitude={read.coordinate.longitude} latitude={read.coordinate.latitude}>
             <svg
@@ -45,11 +45,11 @@ const getPins = (data: SensorRead[]) => {
                 viewBox="0 0 24 24"
                 style={{
                     cursor: 'pointer',
-                    fill: '#d00',
+                    fill: '#2bdd1f',
                     stroke: 'none',
                     transform: `translate(${-SIZE / 2}px,${-SIZE}px)`
                 }}
-                onClick={() => console.log(read)}
+                onClick={() => onClick(read)}
             >
                 <path d={ICON}/>
             </svg>
@@ -61,7 +61,7 @@ const sensorInfo = (data: SensorRead) => {
     return (
         <div>
             <div>
-                {data.name} |{' '}
+                <h4>{data.zone}</h4>
                 <p>Time: {moment(data.dateTime).format('DD/MM/YY hh:mm')}</p>
                 <p>Temperature: {data.temperature}</p>
                 <p>Humidity: {data.humidity}</p>
@@ -70,7 +70,7 @@ const sensorInfo = (data: SensorRead) => {
     )
 };
 
-const DeviceMap: React.FC = () => {
+const DeviceMap: React.FC<SensorInfoState> = (props) => {
     const classes = useStyles();
 
     const TOKEN: string = process.env.REACT_APP_MAP_KEY || 'NO_TOKEN';
@@ -114,7 +114,7 @@ const DeviceMap: React.FC = () => {
                 onViewportChange={_updateViewport}
                 mapboxApiAccessToken={TOKEN}
             >
-                {getPins([])}
+                {getPins(props.data, _onClickMarker)}
 
                 {_renderPopup()}
 
@@ -130,4 +130,7 @@ const DeviceMap: React.FC = () => {
 };
 
 
-export default DeviceMap
+
+const mapStateToProps = (state: RootState) => state.sensor;
+
+export default connect(mapStateToProps)(DeviceMap)

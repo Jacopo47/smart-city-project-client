@@ -17,8 +17,8 @@ export interface MapInfoState {
 }
 
 export const initialViewport: Viewport = {
-    latitude: 37.785164,
-    longitude: -100,
+    latitude: 44.22,
+    longitude: 12.05,
     zoom: 3.5,
     bearing: 0,
     pitch: 0

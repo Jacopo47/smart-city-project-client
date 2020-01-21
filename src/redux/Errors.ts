@@ -2,6 +2,7 @@ import {PayloadAction} from "@reduxjs/toolkit";
 import {handle} from 'redux-pack'
 import {fetchErrors} from "../model/Api";
 import {ErrorStreamEntry} from "../model/ErrorStreamEntry";
+import moment from "moment";
 
 export interface ErrorState {
     isLoading: boolean
@@ -15,6 +16,15 @@ export function loadErrors() {
     return {
         type: LOAD_ERRORS,
         promise: fetchErrors(),
+    };
+}
+
+export const ADD_ERROR = 'ADD_ERRORS';
+
+export function addErrors(error: ErrorStreamEntry) {
+    return {
+        type: ADD_ERROR,
+        payload: error
     };
 }
 
@@ -33,12 +43,21 @@ export default function errorsReducer(state = initialState, action: PayloadActio
                 }),
                 finish: prevState => ({...prevState, isLoading: false}),
                 failure: prevState => {
-                    return {...prevState, error: payload.error }
+                    return {...prevState, error: payload.error}
                 },
                 success: prevState => {
-                    return {...prevState, data: payload.errors }
+                    return {...prevState, data: payload.errors}
                 }
             });
+        case ADD_ERROR:
+            const app = Array.from(state.data);
+            app.push(payload);
+            const data = app.sort((a, b) => moment(a.dateTime).valueOf() - moment(b.dateTime).valueOf());
+
+            return {
+                ...state,
+                data
+            };
         default:
             return state;
     }

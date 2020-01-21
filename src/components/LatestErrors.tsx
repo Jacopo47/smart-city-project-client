@@ -23,8 +23,7 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
         fontSize: theme.typography.pxToRem(12)
     },
     container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
+        marginTop: theme.spacing(2)
     },
     paper: {
         padding: theme.spacing(2),
@@ -41,58 +40,43 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
+const getErrors = (data: ErrorStreamEntry[], classes: any) => {
+    if (data.length === 0) return <h1>No error to show</h1>;
+
+    let i = 0;
+    return data.map(error => {
+        return (
+            <ExpansionPanel className={classes.container} key={i++}>
+                <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon/>}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading}>
+                        {moment(error.dateTime).format("DD/MM/YY hh:mm:ss") + ' / ' + error.error.zone}
+                    </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <p>{error.error.deviceId + ': ' + error.error.errorMsg}</p>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+        )
+    });
+};
+
 const LatestErrors: React.FC<ErrorState> = (props) => {
     const classes = useStyles();
-
-
-    console.log(props.data);
-    const data: ErrorStreamEntry[] = props.data;
     const isLoading: boolean = props.isLoading;
-
-    const noErrorsToShow = <h1>No error to show</h1>;
-    const showErrors = () => {
-        if (data.length > 0) {
-            let i = 0;
-            return data.map(error => {
-                return (
-                        <ExpansionPanel key={i++}>
-                            <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon/>}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className={classes.heading}>
-                                    {moment(error.dateTime).format("DD/MM/YY hh:mm:ss") + ' / ' + error.error.zone}
-                                </Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <p>{error.error.deviceId + ': ' + error.error.errorMsg}</p>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                )
-            })
-        } else {
-            return noErrorsToShow
-        }
-    };
-
 
     return (
         <div className={classes.root}>
             <h2>Latest errors:</h2>
             {
-                isLoading ? <CircularProgress/> : showErrors()
+                isLoading ? <CircularProgress/> : getErrors(props.data, classes)
             }
         </div>
     )
 };
 
-const mapStateToProps = (state: RootState) => {
-    const app = {
-        errors: state.errors
-    };
-
-    return app.errors
-};
-
+const mapStateToProps = (state: RootState) => state.errors;
 export default connect(mapStateToProps)(LatestErrors)

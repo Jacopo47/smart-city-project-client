@@ -14,6 +14,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.6",
+    "@types/socket.io-client": "^1.4.32",
     "@types/webpack-env": "^1.15.0",
     "fetch": "^1.1.0",
     "isomorphic-fetch": "^2.2.1",
@@ -27,6 +28,7 @@
     "redux-logger": "^3.0.6",
     "redux-pack": "^0.1.5",
     "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -57,6 +59,8 @@
     "@types/react-map-gl": "^5.1.1",
     "@types/redux-logger": "^3.0.7",
     "@types/redux-pack": "^0.1.4",
+    "@types/socket.io": "^2.1.4",
+    "@types/websocket": "^1.0.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }
