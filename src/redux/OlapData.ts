@@ -35,7 +35,7 @@ export const initialState: OlapDataState = {
     data: [],
     error: null,
     from: moment().startOf('month'),
-    to: moment().endOf('month'),
+    to: moment().endOf('year'),
     granularity: Granularity.Month
 };
 
@@ -55,7 +55,10 @@ export default function olapReducer(state = initialState, action: PayloadAction<
                     return {...prevState, error: payload.error}
                 },
                 success: prevState => {
-                    return {...prevState, data: payload.data}
+                    const app = Array.from(prevState.data);
+                    app.push(...payload.data);
+
+                    return {...prevState, data: app }
                 }
             });
         default:

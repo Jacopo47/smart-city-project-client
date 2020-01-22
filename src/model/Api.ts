@@ -1,7 +1,7 @@
 import 'fetch'
 import {OlapParams} from "./OlapParams";
 
-const DATE_FORMAT = 'DD/MM/YYYY';
+const DATE_FORMAT = 'DD-MM-YYYY';
 
 const API_ROOT = '//localhost:4700/';
 

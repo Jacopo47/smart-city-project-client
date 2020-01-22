@@ -71,9 +71,9 @@ const sensorInfo = (data: SensorRead, addZoneToChart: (zone: string) => void) =>
                 <p>Temperature: {data.temperature}</p>
                 <p>Humidity: {data.humidity}</p>
             </div>
-            <Fab variant="extended">
-                <TimelineIcon onClick={() => addZoneToChart(data.zone)} />
-                Show in chart
+            <Fab variant="extended" color="primary" onClick={() => addZoneToChart(data.zone)}>
+                <TimelineIcon />
+                Chart
             </Fab>
         </div>
     )
@@ -88,11 +88,15 @@ const DeviceMap: React.FC<SensorInfoState> = (props) => {
     const popupInfo: SensorRead | null = useSelector<RootState, SensorRead | null>(state => state.mapInfo.popupInfo);
     const dispatch: Dispatch = useDispatch();
 
-    const getOlapQueryParams = (zone: string):OlapParams => {
+    const from: Moment = useSelector<RootState, Moment>(state => state.olap.from);
+    const to: Moment = useSelector<RootState, Moment>(state => state.olap.to);
+    const granularity: Granularity = useSelector<RootState, Granularity>(state => state.olap.granularity);
+
+    const getOlapQueryParams = (from: Moment, to: Moment, granularity: Granularity, zone: string):OlapParams => {
         return {
-            from: useSelector<RootState, Moment>(state => state.olap.from),
-            to: useSelector<RootState, Moment>(state => state.olap.to),
-            granularity: useSelector<RootState, Granularity>(state => state.olap.granularity),
+            from,
+            to,
+            granularity,
             zone
         }
     };
@@ -116,7 +120,7 @@ const DeviceMap: React.FC<SensorInfoState> = (props) => {
                     closeOnClick={false}
                     onClose={() => dispatch(setPopupInfo(null))}
                 >
-                    {sensorInfo(popupInfo, zone => dispatch(loadOlapData(getOlapQueryParams(zone))))}
+                    {sensorInfo(popupInfo, zone => dispatch(loadOlapData(getOlapQueryParams(from, to, granularity, zone))))}
                 </Popup>
             )
         );
