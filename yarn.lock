@@ -2528,11 +2528,6 @@ base64-js@^1.0.2:
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
   integrity sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
 
-base64id@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/base64id/-/base64id-2.0.0.tgz#2770ac6bc47d312af97a8bf9a634342e0cd25cb6"
-  integrity sha512-lGe34o6EHj9y3Kts9R4ZYs/Gr+6N7MCaMlIFA3F1R2O5/m7K06AxfSeO5530PEERE6/WyEg3lsuyw4GHlPZHog==
-
 base@^0.11.1:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/base/-/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
@@ -3321,11 +3316,6 @@ cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
-
-cookie@0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
-  integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
 
 cookie@0.4.0:
   version "0.4.0"
@@ -4164,18 +4154,6 @@ engine.io-parser@~2.2.0:
     base64-arraybuffer "0.1.5"
     blob "0.0.5"
     has-binary2 "~1.0.2"
-
-engine.io@~3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/engine.io/-/engine.io-3.4.0.tgz#3a962cc4535928c252759a00f98519cb46c53ff3"
-  integrity sha512-XCyYVWzcHnK5cMz7G4VTu2W7zJS7SM1QkcelghyIk/FmobWBtXE7fwhBusEKvCSqc3bMh8fNFMlUkCKTFRxH2w==
-  dependencies:
-    accepts "~1.3.4"
-    base64id "2.0.0"
-    cookie "0.3.1"
-    debug "~4.1.0"
-    engine.io-parser "~2.2.0"
-    ws "^7.1.2"
 
 enhanced-resolve@^4.1.0:
   version "4.1.1"
@@ -5995,7 +5973,7 @@ is-symbol@^1.0.2:
   dependencies:
     has-symbols "^1.0.1"
 
-is-typedarray@^1.0.0, is-typedarray@~1.0.0:
+is-typedarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
@@ -7375,7 +7353,7 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nan@^2.12.1, nan@^2.14.0:
+nan@^2.12.1:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
@@ -10156,12 +10134,7 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-socket.io-adapter@~1.1.0:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-1.1.2.tgz#ab3f0d6f66b8fc7fca3959ab5991f82221789be9"
-  integrity sha512-WzZRUj1kUjrTIrUKpZLEzFZ1OLj5FwLlAFQs9kuZJzJi5DKdU7FsWc36SNmA8iDOtwBQyT8FkrriRM8vXLYz8g==
-
-socket.io-client@2.3.0, socket.io-client@^2.3.0:
+socket.io-client@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-2.3.0.tgz#14d5ba2e00b9bcd145ae443ab96b3f86cbcc1bb4"
   integrity sha512-cEQQf24gET3rfhxZ2jJ5xzAOo/xhZwK+mOqtGRg5IowZsMgwvHwnf/mCRapAAkadhM26y+iydgwsXGObBB5ZdA==
@@ -10189,27 +10162,6 @@ socket.io-parser@~3.3.0:
     component-emitter "1.2.1"
     debug "~3.1.0"
     isarray "2.0.1"
-
-socket.io-parser@~3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/socket.io-parser/-/socket.io-parser-3.4.0.tgz#370bb4a151df2f77ce3345ff55a7072cc6e9565a"
-  integrity sha512-/G/VOI+3DBp0+DJKW4KesGnQkQPFmUCbA/oO2QGT6CWxU7hLGWqU3tyuzeSK/dqcyeHsQg1vTe9jiZI8GU9SCQ==
-  dependencies:
-    component-emitter "1.2.1"
-    debug "~4.1.0"
-    isarray "2.0.1"
-
-socket.io@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/socket.io/-/socket.io-2.3.0.tgz#cd762ed6a4faeca59bc1f3e243c0969311eb73fb"
-  integrity sha512-2A892lrj0GcgR/9Qk81EaY2gYhCBxurV0PfmmESO6p27QPrUK1J3zdns+5QPqvUYK2q657nSj0guoIil9+7eFg==
-  dependencies:
-    debug "~4.1.0"
-    engine.io "~3.4.0"
-    has-binary2 "~1.0.2"
-    socket.io-adapter "~1.1.0"
-    socket.io-client "2.3.0"
-    socket.io-parser "~3.4.0"
 
 sockjs-client@1.4.0:
   version "1.4.0"
@@ -10940,13 +10892,6 @@ type@^2.0.0:
   resolved "https://registry.yarnpkg.com/type/-/type-2.0.0.tgz#5f16ff6ef2eb44f260494dae271033b29c09a9c3"
   integrity sha512-KBt58xCHry4Cejnc2ISQAF7QY+ORngsWfxezO68+12hKV6lQY8P/psIkcbjeHWn7MqcgciWJyCCevFMJdIXpow==
 
-typedarray-to-buffer@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
-  integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
-  dependencies:
-    is-typedarray "^1.0.0"
-
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
@@ -11368,17 +11313,6 @@ websocket-extensions@>=0.1.1:
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
   integrity sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==
 
-websocket@^1.0.31:
-  version "1.0.31"
-  resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.31.tgz#e5d0f16c3340ed87670e489ecae6144c79358730"
-  integrity sha512-VAouplvGKPiKFDTeCCO65vYHsyay8DqoBSlzIO3fayrfOgU94lQN5a1uWVnFrMLceTJw/+fQXR5PGbUVRaHshQ==
-  dependencies:
-    debug "^2.2.0"
-    es5-ext "^0.10.50"
-    nan "^2.14.0"
-    typedarray-to-buffer "^3.1.5"
-    yaeti "^0.0.6"
-
 wgs84@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/wgs84/-/wgs84-0.0.0.tgz#34fdc555917b6e57cf2a282ed043710c049cdc76"
@@ -11649,11 +11583,6 @@ ws@^6.1.2, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.1.2:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.2.1.tgz#03ed52423cd744084b2cf42ed197c8b65a936b8e"
-  integrity sha512-sucePNSafamSKoOqoNfBd8V0StlkzJKL2ZAhGQinCfNQ+oacw+Pk7lcdAElecBF2VkLNZRiIb5Oi1Q5lVUVt2A==
-
 ws@~6.1.0:
   version "6.1.4"
   resolved "https://registry.yarnpkg.com/ws/-/ws-6.1.4.tgz#5b5c8800afab925e94ccb29d153c8d02c1776ef9"
@@ -11685,11 +11614,6 @@ xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
   integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
-
-yaeti@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/yaeti/-/yaeti-0.0.6.tgz#f26f484d72684cf42bedfb76970aa1608fbf9577"
-  integrity sha1-8m9ITXJoTPQr7ft2lwqhYI+/lXc=
 
 yallist@^3.0.0, yallist@^3.0.2, yallist@^3.0.3:
   version "3.1.1"
