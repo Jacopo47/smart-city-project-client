@@ -1,4 +1,4 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core";
+import {createStyles, Fab, makeStyles, Theme} from "@material-ui/core";
 import React from "react";
 import {SensorRead} from "../model/SensorRead";
 import MapGL, {FullscreenControl, Marker, NavigationControl, Popup} from 'react-map-gl';
@@ -6,8 +6,13 @@ import {connect, useDispatch, useSelector} from "react-redux";
 import {RootState} from "../app/rootReducer";
 import {Dispatch} from "redux";
 import {setPopupInfo, updateViewport, Viewport} from "../redux/MapInfo";
-import moment from "moment";
+import moment, {Moment} from "moment";
 import {SensorInfoState} from "../redux/SensorInformation";
+import TimelineIcon from '@material-ui/icons/Timeline';
+import {Granularity, loadOlapData} from "../redux/OlapData";
+import {OlapParams} from "../model/OlapParams";
+
+
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -57,7 +62,7 @@ const getPins = (data: SensorRead[], onClick: (value: SensorRead) => void) => {
     ));
 };
 
-const sensorInfo = (data: SensorRead) => {
+const sensorInfo = (data: SensorRead, addZoneToChart: (zone: string) => void) => {
     return (
         <div>
             <div>
@@ -66,6 +71,10 @@ const sensorInfo = (data: SensorRead) => {
                 <p>Temperature: {data.temperature}</p>
                 <p>Humidity: {data.humidity}</p>
             </div>
+            <Fab variant="extended">
+                <TimelineIcon onClick={() => addZoneToChart(data.zone)} />
+                Show in chart
+            </Fab>
         </div>
     )
 };
@@ -79,6 +88,14 @@ const DeviceMap: React.FC<SensorInfoState> = (props) => {
     const popupInfo: SensorRead | null = useSelector<RootState, SensorRead | null>(state => state.mapInfo.popupInfo);
     const dispatch: Dispatch = useDispatch();
 
+    const getOlapQueryParams = (zone: string):OlapParams => {
+        return {
+            from: useSelector<RootState, Moment>(state => state.olap.from),
+            to: useSelector<RootState, Moment>(state => state.olap.to),
+            granularity: useSelector<RootState, Granularity>(state => state.olap.granularity),
+            zone
+        }
+    };
 
     const _updateViewport = (viewport: any) => {
         dispatch(updateViewport(viewport))
@@ -99,7 +116,7 @@ const DeviceMap: React.FC<SensorInfoState> = (props) => {
                     closeOnClick={false}
                     onClose={() => dispatch(setPopupInfo(null))}
                 >
-                    {sensorInfo(popupInfo)}
+                    {sensorInfo(popupInfo, zone => dispatch(loadOlapData(getOlapQueryParams(zone))))}
                 </Popup>
             )
         );

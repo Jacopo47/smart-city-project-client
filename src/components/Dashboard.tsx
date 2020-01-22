@@ -3,11 +3,11 @@ import React from "react";
 import clsx from "clsx";
 import DeviceMap from "./DeviceMap";
 import LatestErrors from "./LatestErrors";
-import LatestInformation from "./LatestInformation";
 import {useDispatch} from "react-redux";
 import {loadErrors} from "../redux/Errors";
 import {loadSensorInfo} from "../redux/SensorInformation";
 import WebSocketClient from "./WebSocketClient";
+import DataVisualization from "./DataVisualization";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <LatestInformation/>
+                            <DataVisualization/>
                         </Paper>
                     </Grid>
                 </Grid>
