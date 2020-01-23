@@ -22,12 +22,36 @@ export interface OlapDataState {
 }
 
 export const LOAD_OLAP_DATA = 'LOAD_OLAP_DATA';
+export const SET_FROM = 'SET_FROM';
+export const SET_TO = 'SET_FROM';
+export const SET_GRANULARITY = 'SET_GRANULARITY';
 
 export function loadOlapData(payload: OlapParams) {
     return {
         type: LOAD_OLAP_DATA,
         promise: fetchOlapData(payload),
     };
+}
+
+export function setFrom(from: Moment) {
+    return {
+        type: SET_FROM,
+        payload: from
+    }
+}
+
+export function setTo(to: Moment) {
+    return {
+        type: SET_TO,
+        payload: to
+    }
+}
+
+export function setGranularity(granularity: Granularity) {
+    return {
+        type: SET_GRANULARITY,
+        payload: granularity
+    }
 }
 
 export const initialState: OlapDataState = {
@@ -61,6 +85,21 @@ export default function olapReducer(state = initialState, action: PayloadAction<
                     return {...prevState, data: app }
                 }
             });
+        case SET_FROM:
+            return {
+                ...state,
+                from: payload
+            };
+        case SET_TO:
+            return {
+                ...state,
+                to: payload
+            };
+        case SET_GRANULARITY:
+            return {
+                ...state,
+                granularity: payload
+            };
         default:
             return state;
     }
