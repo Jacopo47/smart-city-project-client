@@ -1,22 +1,39 @@
-import {CircularProgress, Container, createStyles, Grid, makeStyles, Paper, Theme} from "@material-ui/core";
-import React, {useState} from "react";
+import {
+    Button,
+    CircularProgress,
+    Container,
+    createStyles,
+    FormControl,
+    Grid,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Paper,
+    Select,
+    Theme
+} from "@material-ui/core";
+import React from "react";
 import {connect, useDispatch} from "react-redux";
 import {RootState} from "../app/rootReducer";
 import {Dispatch} from "redux";
-import {OlapDataState, setFrom, setTo} from "../redux/OlapData";
+import {
+    getGranularity,
+    GranularityValues,
+    loadOlapData,
+    OlapDataState,
+    reset,
+    resetOnlyData,
+    setFrom,
+    setGranularity,
+    setTo
+} from "../redux/OlapData";
 import {CartesianGrid, Legend, Scatter, ScatterChart, Tooltip, XAxis, YAxis} from "recharts";
 import randomColor from "randomcolor";
-import DeviceMap from "./DeviceMap";
-import LatestErrors from "./LatestErrors";
 import clsx from "clsx";
 import DateUtils from '@date-io/moment';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import {KeyboardDatePicker, MuiPickersUtilsProvider,} from '@material-ui/pickers';
 
-
+const colorMap = new Map<string, string>();
 export const useStyles = makeStyles((theme: Theme) => createStyles({
     container: {
         paddingTop: theme.spacing(4),
@@ -30,6 +47,19 @@ export const useStyles = makeStyles((theme: Theme) => createStyles({
     },
     fixedHeight: {
         height: 500,
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    granularity: {
+        marginTop: theme.spacing(2),
+        marginLeft: theme.spacing(2)
+    },
+    submit: {
+        '& > *': {
+            margin: theme.spacing(1),
+        }
     }
 }));
 
@@ -38,7 +68,7 @@ const DataVisualization: React.FC<OlapDataState> = (props) => {
     const classes = useStyles();
     const dispatch: Dispatch = useDispatch();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    const [selectedDate, handleDateChange] = useState(new Date());
+
 
     const lines = () => {
         return [...Array.from(new Set(props.data.map(_ => _.zone)))].map(e => {
@@ -46,7 +76,14 @@ const DataVisualization: React.FC<OlapDataState> = (props) => {
                 return {x: fact.period, y: fact.value}
             });
 
-            const color = randomColor();
+
+            console.log(colorMap);
+            let color = colorMap.get(e);
+            if (color === undefined) {
+                color = randomColor();
+                colorMap.set(e, color)
+            }
+
             return (
                 <Scatter name={e} key={e} data={values} fill={color} line shape="circle"/>
             )
@@ -69,60 +106,100 @@ const DataVisualization: React.FC<OlapDataState> = (props) => {
 
     const input = () => {
         return (
-            <MuiPickersUtilsProvider utils={DateUtils}>
+            <div>
+                <FormControl className={classes.formControl}>
+                    <MuiPickersUtilsProvider utils={DateUtils}>
+                        <Container maxWidth="sm">
+                            <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="DD/MM/YYYY"
+                                margin="normal"
+                                id="from"
+                                label="From"
+                                value={props.from}
+                                onChange={e => {
+                                    if (e !== null) {
+                                        dispatch(setFrom(e))
+                                    }
+                                }}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                        </Container>
+                        <Container maxWidth="sm">
+                            <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="DD/MM/YYYY"
+                                margin="normal"
+                                id="to"
+                                label="To"
+                                value={props.to}
+                                onChange={e => {
+                                    if (e !== null) {
+                                        dispatch(setTo(e))
+                                    }
+                                }}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                        </Container>
+                    </MuiPickersUtilsProvider>
+                </FormControl>
                 <Container maxWidth="sm">
-                    <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="from"
-                        label="From"
-                        value={selectedDate}
+                    <InputLabel id="granularity-input-label">Granularity</InputLabel>
+                    <Select
+                        className={classes.granularity}
+                        labelId="granularity-input-label"
+                        id="granularity-input-select"
+                        value={props.granularity}
                         onChange={e => {
-                            if (e !== null) {
-                                dispatch(setFrom(e))
+                            if (e !== undefined) {
+                                const {value} = e.target;
+                                if (typeof value === "string") {
+                                    dispatch(setGranularity(getGranularity(value)))
+                                }
+
                             }
                         }}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
+                    >
+                        {GranularityValues.map(v => <MenuItem key={v} value={v}>{v}</MenuItem>)}
+                    </Select>
                 </Container>
-                <Container maxWidth="sm">
-                    <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="to"
-                        label="To"
-                        value={selectedDate}
-                        onChange={e => {
-                            if (e !== null) {
-                                dispatch(setTo(e))
-                            }
-                        }}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
+                <Container className={classes.submit} maxWidth={"md"}>
+                    <Button variant="contained" onClick={() => dispatch(reset())}>Reset</Button>
+                    <Button variant="contained" color="primary" onClick={() => {
+                        const zones = [...Array.from(new Set(props.data.map(_ => _.zone)))];
+                        dispatch(resetOnlyData());
+
+                        zones.forEach(z => dispatch(loadOlapData({
+                            from: props.from,
+                            to: props.to,
+                            granularity: props.granularity,
+                            zone: z
+                        })))
+                    }}>
+                        Reload
+                    </Button>
                 </Container>
-            </MuiPickersUtilsProvider>
+            </div>
         )
-    }
+    };
 
     return (
         <div>
             <h1>OLAP</h1>
             <Container maxWidth="lg" className={classes.container}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={9}>
+                    <Grid item xs={12} md={6} lg={8}>
                         <Paper className={fixedHeightPaper}>
                             {chart()}
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <Paper className={fixedHeightPaper}>
                             {input()}
                         </Paper>

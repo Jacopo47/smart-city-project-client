@@ -12,6 +12,24 @@ export enum Granularity {
     Year = 'year'
 }
 
+export const getGranularity = (input: string | undefined): Granularity => {
+    if (input === undefined) return Granularity.Day;
+    switch (input) {
+        case Granularity.Hour:
+            return Granularity.Hour;
+        case Granularity.Day:
+            return Granularity.Day;
+        case Granularity.Month:
+            return Granularity.Month;
+        case Granularity.Year:
+            return Granularity.Year
+    }
+
+    return Granularity.Day
+};
+export const GranularityValues = [Granularity.Hour, Granularity.Day, Granularity.Month, Granularity.Year];
+
+
 export interface OlapDataState {
     isLoading: boolean
     data: Fact[]
@@ -25,6 +43,8 @@ export const LOAD_OLAP_DATA = 'LOAD_OLAP_DATA';
 export const SET_FROM = 'SET_FROM';
 export const SET_TO = 'SET_FROM';
 export const SET_GRANULARITY = 'SET_GRANULARITY';
+export const RESET = 'RESET';
+export const RESET_DATA = 'RESET_DATA';
 
 export function loadOlapData(payload: OlapParams) {
     return {
@@ -51,6 +71,18 @@ export function setGranularity(granularity: Granularity) {
     return {
         type: SET_GRANULARITY,
         payload: granularity
+    }
+}
+
+export function reset() {
+    return {
+        type: RESET
+    }
+}
+
+export function resetOnlyData() {
+    return {
+        type: RESET_DATA
     }
 }
 
@@ -82,7 +114,7 @@ export default function olapReducer(state = initialState, action: PayloadAction<
                     const app = Array.from(prevState.data);
                     app.push(...payload.data);
 
-                    return {...prevState, data: app }
+                    return {...prevState, data: app}
                 }
             });
         case SET_FROM:
@@ -99,6 +131,13 @@ export default function olapReducer(state = initialState, action: PayloadAction<
             return {
                 ...state,
                 granularity: payload
+            };
+        case RESET:
+            return initialState;
+        case RESET_DATA:
+            return {
+                ...state,
+                data: []
             };
         default:
             return state;
