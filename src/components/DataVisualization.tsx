@@ -77,7 +77,6 @@ const DataVisualization: React.FC<OlapDataState> = (props) => {
             });
 
 
-            console.log(colorMap);
             let color = colorMap.get(e);
             if (color === undefined) {
                 color = randomColor();

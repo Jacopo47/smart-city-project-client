@@ -11,8 +11,7 @@ import {SensorInfoState} from "../redux/SensorInformation";
 import TimelineIcon from '@material-ui/icons/Timeline';
 import {Granularity, loadOlapData} from "../redux/OlapData";
 import {OlapParams} from "../model/OlapParams";
-
-
+import SnackBar from "./SnackBar";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -72,7 +71,7 @@ const sensorInfo = (data: SensorRead, addZoneToChart: (zone: string) => void) =>
                 <p>Humidity: {data.humidity}</p>
             </div>
             <Fab variant="extended" color="primary" onClick={() => addZoneToChart(data.zone)}>
-                <TimelineIcon />
+                <TimelineIcon/>
                 Chart
             </Fab>
         </div>
@@ -92,7 +91,7 @@ const DeviceMap: React.FC<SensorInfoState> = (props) => {
     const to: Moment = useSelector<RootState, Moment>(state => state.olap.to);
     const granularity: Granularity = useSelector<RootState, Granularity>(state => state.olap.granularity);
 
-    const getOlapQueryParams = (from: Moment, to: Moment, granularity: Granularity, zone: string):OlapParams => {
+    const getOlapQueryParams = (from: Moment, to: Moment, granularity: Granularity, zone: string): OlapParams => {
         return {
             from,
             to,
@@ -127,29 +126,28 @@ const DeviceMap: React.FC<SensorInfoState> = (props) => {
     };
 
     return (
-            <MapGL
-                {...viewport}
-                width="100%"
-                height="100%"
-                mapStyle="mapbox://styles/mapbox/streets-v11"
-                onViewportChange={_updateViewport}
-                mapboxApiAccessToken={TOKEN}
-            >
-                {getPins(props.data, _onClickMarker)}
+        <MapGL
+            {...viewport}
+            width="100%"
+            height="100%"
+            mapStyle="mapbox://styles/mapbox/outdoors-v11"
+            onViewportChange={_updateViewport}
+            mapboxApiAccessToken={TOKEN}
+        >
+            {getPins(props.data, _onClickMarker)}
 
-                {_renderPopup()}
+            {_renderPopup()}
 
-                <div className={classes.fullscreenControlStyle}>
-                    <FullscreenControl/>
-                </div>
-                <div className={classes.navStyle}>
-                    <NavigationControl/>
-                </div>
+            <div className={classes.fullscreenControlStyle}>
+                <FullscreenControl/>
+            </div>
+            <div className={classes.navStyle}>
+                <NavigationControl/>
+            </div>
 
-            </MapGL>
+        </MapGL>
     )
 };
-
 
 
 const mapStateToProps = (state: RootState) => state.sensor;

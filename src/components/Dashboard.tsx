@@ -8,6 +8,10 @@ import {loadErrors} from "../redux/Errors";
 import {loadSensorInfo} from "../redux/SensorInformation";
 import WebSocketClient from "./WebSocketClient";
 import DataVisualization from "./DataVisualization";
+import {SnackbarProvider} from "notistack";
+import {SnackbarUtilsConfigurator} from "./SnackBar";
+import {loadConsumerGroupData} from "../redux/ConsumerGroupInfo";
+import ConsumerGroup from "./ConsumerGroup";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -37,30 +41,43 @@ const Dashboard: React.FC = () => {
     const dispatch = useDispatch();
     dispatch(loadErrors());
     dispatch(loadSensorInfo());
+    setTimeout(() => {
+        //Periodically updated
+        dispatch(loadConsumerGroupData());
+    }, 10000);
 
     return (
-        <div className={classes.root}>
-            <Container maxWidth="lg" className={classes.container}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={8} lg={9}>
-                        <Paper className={fixedHeightPaper}>
-                            <DeviceMap/>
-                        </Paper>
+        <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}>
+            <SnackbarUtilsConfigurator/>
+            <div className={classes.root}>
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={8} lg={9}>
+                            <Paper className={fixedHeightPaper}>
+                                <DeviceMap/>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={4} lg={3}>
+                            <Paper className={fixedHeightPaper}>
+                                <LatestErrors/>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <DataVisualization/>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <ConsumerGroup/>
+                            </Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={4} lg={3}>
-                        <Paper className={fixedHeightPaper}>
-                            <LatestErrors/>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <DataVisualization/>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </Container>
-            <WebSocketClient/>
-        </div>
+
+                </Container>
+                <WebSocketClient/>
+            </div>
+        </SnackbarProvider>
     )
 };
 

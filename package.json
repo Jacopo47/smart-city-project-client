@@ -23,6 +23,7 @@
     "fetch": "^1.1.0",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
+    "notistack": "^0.9.7",
     "randomcolor": "^0.5.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

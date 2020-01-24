@@ -1,16 +1,21 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import {combineReducers} from '@reduxjs/toolkit';
 import dashboardReducer, {DashboardState, initialState as dashboardInitialState} from '../redux/Dashboard';
 import errorsReducer, {ErrorState, initialState as errorsInitialState} from '../redux/Errors';
-import mapInfoReducer, { MapInfoState, initialState as mapInfoInitialState} from '../redux/MapInfo';
-import sensorInfoReducer, { SensorInfoState, initialState as sensorInfoInitialState } from "../redux/SensorInformation";
-import olapReducer, { OlapDataState, initialState as OlapInitialState } from "../redux/OlapData";
+import mapInfoReducer, {initialState as mapInfoInitialState, MapInfoState} from '../redux/MapInfo';
+import sensorInfoReducer, {initialState as sensorInfoInitialState, SensorInfoState} from "../redux/SensorInformation";
+import olapReducer, {initialState as OlapInitialState, OlapDataState} from "../redux/OlapData";
+import consumerGroupReducer, {
+    ConsumerGroupState,
+    initialState as ConsumerGroupInfoInitialState
+} from "../redux/ConsumerGroupInfo";
 
 export interface State {
     dashboard: DashboardState,
     errors: ErrorState
     mapInfo: MapInfoState,
     sensor: SensorInfoState,
-    olap: OlapDataState
+    olap: OlapDataState,
+    consumerGroup: ConsumerGroupState
 }
 
 export const initialState: State = {
@@ -18,15 +23,17 @@ export const initialState: State = {
     errors: errorsInitialState,
     mapInfo: mapInfoInitialState,
     sensor: sensorInfoInitialState,
-    olap: OlapInitialState
-}
+    olap: OlapInitialState,
+    consumerGroup: ConsumerGroupInfoInitialState
+};
 
 const rootReducer = combineReducers({
     dashboard: dashboardReducer,
     errors: errorsReducer,
     mapInfo: mapInfoReducer,
     sensor: sensorInfoReducer,
-    olap: olapReducer
+    olap: olapReducer,
+    consumerGroup: consumerGroupReducer
 });
 
 /** Root Redux store types. */
