@@ -6,7 +6,8 @@ import moment from "moment";
 
 export interface ErrorState {
     isLoading: boolean
-    data: ErrorStreamEntry[]
+    data: ErrorStreamEntry[],
+    unread: number,
     error: string | null
 }
 
@@ -28,7 +29,15 @@ export function addErrors(error: ErrorStreamEntry) {
     };
 }
 
-export const initialState: ErrorState = {isLoading: false, data: [], error: null};
+export const RESET_UNREAD = 'RESET_UNREAD';
+
+export function resetUnread() {
+    return {
+        type: RESET_UNREAD
+    };
+}
+
+export const initialState: ErrorState = {isLoading: false, data: [], error: null, unread: 0};
 
 export default function errorsReducer(state = initialState, action: PayloadAction<any>) {
     const {type, payload} = action;
@@ -46,7 +55,7 @@ export default function errorsReducer(state = initialState, action: PayloadActio
                     return {...prevState, error: payload.error}
                 },
                 success: prevState => {
-                    return {...prevState, data: payload.errors}
+                    return {...prevState, data: payload.errors, unread: payload.errors.length}
                 }
             });
         case ADD_ERROR:
@@ -56,7 +65,13 @@ export default function errorsReducer(state = initialState, action: PayloadActio
 
             return {
                 ...state,
-                data
+                data,
+                unread: state.unread + 1
+            };
+        case RESET_UNREAD:
+            return {
+                ...state,
+                unread: 0
             };
         default:
             return state;

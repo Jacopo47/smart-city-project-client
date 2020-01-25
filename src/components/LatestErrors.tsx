@@ -1,4 +1,5 @@
 import {
+    Badge,
     CircularProgress,
     createStyles,
     ExpansionPanel,
@@ -9,8 +10,8 @@ import {
     Typography
 } from "@material-ui/core";
 import React from "react";
-import {connect} from "react-redux";
-import {ErrorState} from "../redux/Errors";
+import {connect, useDispatch} from "react-redux";
+import {ErrorState, resetUnread} from "../redux/Errors";
 import {ErrorStreamEntry} from "../model/ErrorStreamEntry";
 import {RootState} from "../app/rootReducer";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -67,14 +68,20 @@ const getErrors = (data: ErrorStreamEntry[], classes: any) => {
 const LatestErrors: React.FC<ErrorState> = (props) => {
     const classes = useStyles();
     const isLoading: boolean = props.isLoading;
+    const dispatch = useDispatch();
+
 
     return (
-        <div className={classes.root}>
-            <h2>Latest errors:</h2>
-            {
-                isLoading ? <CircularProgress/> : getErrors(props.data, classes)
-            }
-        </div>
+        <Badge color="secondary" title="New errors" badgeContent={props.unread}>
+
+            <div className={classes.root} onClick={() => dispatch(resetUnread())}>
+                <h2>Latest errors:</h2>
+                {
+                    isLoading ? <CircularProgress/> : getErrors(props.data, classes)
+                }
+            </div>
+        </Badge>
+
     )
 };
 
