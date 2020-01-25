@@ -11,16 +11,18 @@ function callApi(endpoint: string, post: boolean = false) {
     const action = post ? fetch(fullUrl, {
         method: "POST"
     }): fetch(fullUrl);
+    let ok = true;
     return action
         .then(response => {
-            if (!response.ok) {
-                return Promise.reject({
-                    message: 'Errore durante la richiesta'
-                });
+            ok = response.ok;
+            return response.json()
+        }).then(data => {
+            if (ok) {
+                return Promise.resolve(data)
+            } else {
+                return Promise.reject(data)
             }
-
-            return response.json();
-        }).catch(err => Promise.reject({error: err.message}))
+        })
 
 }
 

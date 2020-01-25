@@ -6,9 +6,11 @@ import {
     createStyles,
     IconButton,
     List,
-    ListItem, ListItemSecondaryAction,
+    ListItem,
+    ListItemSecondaryAction,
     ListItemText,
-    makeStyles, Paper,
+    makeStyles,
+    Paper,
     Theme,
     Tooltip,
     Typography
@@ -67,36 +69,30 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
     const destroyGroup = (group: string) => {
         fetchDestroyGroup(group)
             .then(data => {
-                console.log(data);
-                SnackBar.success(data.msg)
+                SnackBar.success(data.message);
                 dispatch(loadConsumerGroupData())
             }).catch(err => {
-                console.log(err);
-                SnackBar.error(err.msg)
+            SnackBar.error(err.message)
         })
     };
 
     const deleteConsumer = (group: string, consumer: string) => {
         fetchDeleteConsumer(group, consumer)
             .then(data => {
-                console.log(data);
-                SnackBar.success(data.msg);
+                SnackBar.success(data.message);
                 dispatch(loadConsumerGroupData())
             }).catch(err => {
-            console.log(err);
-            SnackBar.error(err.msg)
+            SnackBar.error(err.message)
         })
     };
 
     const setGroupId = (group: string, id: string) => {
         fetchSetGroupId(group, id)
             .then(data => {
-                console.log(data);
-                SnackBar.success(data.msg)
+                SnackBar.success(data.message);
                 dispatch(loadConsumerGroupData())
             }).catch(err => {
-            console.log(err);
-            SnackBar.error(err.msg)
+            SnackBar.error(err.message)
         })
     };
 
@@ -114,11 +110,11 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                                     secondary={"Idle: " + convertedIdle}
                                 />
                                 <ListItemSecondaryAction>
-                                   <Tooltip title="Delete consumer">
-                                       <IconButton edge="end" onClick={() => deleteConsumer(data.name, e.name)}>
-                                           <DeleteIcon />
-                                       </IconButton>
-                                   </Tooltip>
+                                    <Tooltip title="Delete consumer">
+                                        <IconButton edge="end" onClick={() => deleteConsumer(data.name, e.name)}>
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </Tooltip>
                                 </ListItemSecondaryAction>
                             </ListItem>
                         })
@@ -149,7 +145,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                     </CardContent>
                     <div className={classes.controls}>
                         <Tooltip title="Delete group">
-                            <IconButton onClick={() => fetchDestroyGroup(data.name)}>
+                            <IconButton onClick={() => destroyGroup(data.name)}>
                                 <DeleteIcon/>
                             </IconButton>
                         </Tooltip>
@@ -159,7 +155,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Set group ID">
-                            <IconButton onClick={() => fetchSetGroupId(data.name, "-1")}>
+                            <IconButton onClick={() => setGroupId(data.name, "-1")}>
                                 <MenuOpenIcon/>
                             </IconButton>
                         </Tooltip>
