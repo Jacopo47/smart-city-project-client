@@ -17,6 +17,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import React, {useState} from "react";
 import moment, {Moment} from "moment";
+import {fetchDeleteConsumer, fetchDestroyGroup, fetchSetGroupId} from "../model/Api";
+import SnackBar from "./SnackBar";
+import {useDispatch} from "react-redux";
+import {loadConsumerGroupData} from "../redux/ConsumerGroupInfo";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -58,6 +62,44 @@ const useStyles = makeStyles((theme: Theme) =>
 const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: ConsumerGroup }) => {
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
+    const dispatch = useDispatch();
+
+    const destroyGroup = (group: string) => {
+        fetchDestroyGroup(group)
+            .then(data => {
+                console.log(data);
+                SnackBar.success(data.msg)
+                dispatch(loadConsumerGroupData())
+            }).catch(err => {
+                console.log(err);
+                SnackBar.error(err.msg)
+        })
+    };
+
+    const deleteConsumer = (group: string, consumer: string) => {
+        fetchDeleteConsumer(group, consumer)
+            .then(data => {
+                console.log(data);
+                SnackBar.success(data.msg);
+                dispatch(loadConsumerGroupData())
+            }).catch(err => {
+            console.log(err);
+            SnackBar.error(err.msg)
+        })
+    };
+
+    const setGroupId = (group: string, id: string) => {
+        fetchSetGroupId(group, id)
+            .then(data => {
+                console.log(data);
+                SnackBar.success(data.msg)
+                dispatch(loadConsumerGroupData())
+            }).catch(err => {
+            console.log(err);
+            SnackBar.error(err.msg)
+        })
+    };
+
     const getConsumerList = (consumers: Consumer[]) => {
         return (
             <Paper className={classes.paper}>
@@ -73,7 +115,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                                 />
                                 <ListItemSecondaryAction>
                                    <Tooltip title="Delete consumer">
-                                       <IconButton edge="end" aria-label="delete">
+                                       <IconButton edge="end" onClick={() => deleteConsumer(data.name, e.name)}>
                                            <DeleteIcon />
                                        </IconButton>
                                    </Tooltip>
@@ -85,8 +127,8 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
             </Paper>
         )
     };
-    const getFormattedDatetime = (date: Moment): string => moment(date).format("DD/MM/YYYY hh:mm");
 
+    const getFormattedDatetime = (date: Moment): string => moment(date).format("DD/MM/YYYY hh:mm");
     const data: ConsumerGroup = props.data;
     const cardId = 'consumerGroupCardId-' + data.name;
 
@@ -107,12 +149,17 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                     </CardContent>
                     <div className={classes.controls}>
                         <Tooltip title="Delete group">
-                            <IconButton aria-label="previous">
+                            <IconButton onClick={() => fetchDestroyGroup(data.name)}>
                                 <DeleteIcon/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Show consumers">
-                            <IconButton aria-label="play/pause" onClick={() => setOpen(!open)}>
+                            <IconButton onClick={() => setOpen(!open)}>
+                                <MenuOpenIcon/>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Set group ID">
+                            <IconButton onClick={() => fetchSetGroupId(data.name, "-1")}>
                                 <MenuOpenIcon/>
                             </IconButton>
                         </Tooltip>
