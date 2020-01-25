@@ -1,27 +1,36 @@
 import React from "react";
 import {
+    Badge,
     Card,
     CardContent,
+    Collapse,
+    Container,
     createStyles,
+    Grid,
     IconButton,
     makeStyles,
+    Paper,
     Theme,
     Tooltip,
-    Typography,
-    useTheme
+    Typography
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import {RootState} from "../app/rootReducer";
 import {connect} from "react-redux";
 import {ConsumerGroupState} from "../redux/ConsumerGroupInfo";
-import moment from "moment";
+import moment, {Moment} from "moment";
+import {Consumer} from "../model/ConsumerGroup";
+import ConsumerGroupCard from "./ConsumerGroupCard";
 
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        container: {
+            margin: theme.spacing(1)
+        },
         card: {
-            display: 'flex',
+            display: 'flex'
         },
         details: {
             display: 'flex',
@@ -33,6 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
         cover: {
             width: 151,
         },
+        paper: {
+            padding: theme.spacing(2),
+            display: 'flex',
+            overflow: 'auto',
+            flexDirection: 'column',
+        },
         controls: {
             display: 'flex',
             alignItems: 'center',
@@ -43,56 +58,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const ConsumerGroup: React.FC<ConsumerGroupState> = (props) => {
+const ConsumerGroupComponent: React.FC<ConsumerGroupState> = (props) => {
     const classes = useStyles();
 
+    const getGroups = () => {
+        return props.data === null ? <h4>No groups to show!</h4> :
+            props.data.map(group => {
+                const card = <ConsumerGroupCard data={group}/>
 
-    const getTimeFromId = (input: string): string => {
-        const timeAsMillis = input.split("-")[0];
-        return moment(timeAsMillis).format("DD/MM/YYYY HH:mm:ss")
+                return (
+                    <Grid key={group.name} item xs={12} md={3}>
+                        <Paper className={classes.paper}>
+                            <Badge color="secondary" title="Pending messages" showZero
+                                   badgeContent={group.pendingMessages}>
+                                {card}
+                            </Badge>
+                        </Paper>
+                    </Grid>
+                )
+            })
     };
 
     return (
         <div>
-            {
-                props.data === null ? null: props.data.map(group => {
-                    return (
-                        <Card className={classes.card}>
-                            <div className={classes.details}>
-                                <CardContent className={classes.content}>
-                                    <Typography component="h5" variant="h5">
-                                        {group.name}
-                                    </Typography>
-                                    <Tooltip title="Consumers">
-                                        <Typography>
-                                            {group.consumers}
-                                        </Typography>
-                                    </Tooltip>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                        Pending Messages: {group.pendingMessages}
-                                    </Typography>
-                                    <Typography variant="subtitle1" color="textSecondary">
-                                        Last received ID time: {group.lastDeliveredIdTime}
-                                    </Typography>
-                                </CardContent>
-                                <div className={classes.controls}>
-                                    <IconButton aria-label="previous">
-                                        <DeleteIcon/>
-                                    </IconButton>
-                                    <IconButton aria-label="play/pause">
-                                        <MenuOpenIcon/>
-                                    </IconButton>
-                                </div>
-                            </div>
-
-                        </Card>
-                    )
-                })
-            }
+            <Container maxWidth="lg" className={classes.container}>
+                <Grid container justify={"center"} spacing={4}>
+                    {getGroups()}
+                </Grid>
+            </Container>
         </div>
     );
 };
 
 const mapStateToProps = (state: RootState) => state.consumerGroup;
-
-export default connect(mapStateToProps)(ConsumerGroup)
+export default connect(mapStateToProps)(ConsumerGroupComponent)

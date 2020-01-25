@@ -41,10 +41,8 @@ const Dashboard: React.FC = () => {
     const dispatch = useDispatch();
     dispatch(loadErrors());
     dispatch(loadSensorInfo());
-    setTimeout(() => {
-        //Periodically updated
-        dispatch(loadConsumerGroupData());
-    }, 10000);
+    dispatch(loadConsumerGroupData());
+    setTimeout(() => dispatch(loadConsumerGroupData()), 10000);
 
     return (
         <SnackbarProvider maxSnack={3} anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}>

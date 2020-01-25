@@ -70,7 +70,7 @@ const sensorInfo = (data: SensorRead, addZoneToChart: (zone: string) => void) =>
                 <p>Temperature: {data.temperature}</p>
                 <p>Humidity: {data.humidity}</p>
             </div>
-            <Fab variant="extended" color="primary" onClick={() => addZoneToChart(data.zone)}>
+            <Fab variant="extended" size="small" color="primary" onClick={() => addZoneToChart(data.zone)}>
                 <TimelineIcon/>
                 Chart
             </Fab>

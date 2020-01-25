@@ -2,8 +2,6 @@ import {PayloadAction} from "@reduxjs/toolkit";
 import {ConsumerGroup} from "../model/ConsumerGroup";
 import {fetchConsumerGroupsInfo} from "../model/Api";
 import {handle} from "redux-pack";
-import {LOAD_ERRORS} from "./Errors";
-
 
 export interface ConsumerGroupState {
     isLoading: boolean
@@ -16,7 +14,7 @@ const LOAD_CONSUMER_GROUP_DATA: string = 'LOAD_CONSUMER_GROUP_DATA';
 export function loadConsumerGroupData() {
     return {
         type: LOAD_CONSUMER_GROUP_DATA,
-        promise: fetchConsumerGroupsInfo
+        promise: fetchConsumerGroupsInfo()
     }
 }
 
@@ -27,7 +25,7 @@ export default function consumerGroupReducer(state = initialState, action: Paylo
     const {type, payload} = action;
 
     switch (type) {
-        case LOAD_ERRORS:
+        case LOAD_CONSUMER_GROUP_DATA:
             return handle(state, action, {
                 start: prevState => ({
                     ...prevState,
