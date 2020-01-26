@@ -4,14 +4,20 @@ import {
     Card,
     CardContent,
     Collapse,
-    createStyles, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    createStyles,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     IconButton,
     List,
     ListItem,
     ListItemSecondaryAction,
     ListItemText,
     makeStyles,
-    Paper, TextField,
+    Paper,
+    TextField,
     Theme,
     Tooltip,
     Typography
@@ -24,6 +30,8 @@ import {fetchDeleteConsumer, fetchDestroyGroup, fetchSetGroupId} from "../model/
 import SnackBar from "./SnackBar";
 import {useDispatch} from "react-redux";
 import {loadConsumerGroupData} from "../redux/ConsumerGroupInfo";
+import PostAddIcon from '@material-ui/icons/PostAdd';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -153,7 +161,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                     type="text"
                     fullWidth
                     value={dialogValue}
-                    onChange={e => setDialogValue(e.target.innerText)}
+                    onChange={e => setDialogValue(e.target.value)}
                 />
             </DialogContent>
             <DialogActions>
@@ -161,8 +169,9 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                     Cancel
                 </Button>
                 <Button onClick={() => {
-                    handleOpenDialog()
-                    console.log(dialogValue)
+                    handleClose();
+                    setGroupId(data.name, dialogValue);
+                    setDialogValue("")
                 }} color="primary">
                     OK
                 </Button>
@@ -197,12 +206,13 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                         </Tooltip>
                         <Tooltip title="Set group ID">
                             <IconButton onClick={() => handleOpenDialog()}>
-                                <MenuOpenIcon/>
+                                <PostAddIcon/>
                             </IconButton>
                         </Tooltip>
                     </div>
                 </div>
             </Card>
+            {dialog}
             <Collapse className={classes.collapse} in={open}>
                 {getConsumerList(data.consumersList)}
             </Collapse>
