@@ -1,16 +1,17 @@
 import {Consumer, ConsumerGroup} from "../model/ConsumerGroup";
 import {
+    Button,
     Card,
     CardContent,
     Collapse,
-    createStyles,
+    createStyles, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     IconButton,
     List,
     ListItem,
     ListItemSecondaryAction,
     ListItemText,
     makeStyles,
-    Paper,
+    Paper, TextField,
     Theme,
     Tooltip,
     Typography
@@ -128,6 +129,46 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
     const data: ConsumerGroup = props.data;
     const cardId = 'consumerGroupCardId-' + data.name;
 
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    };
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+    const [dialogValue, setDialogValue] = useState("");
+
+    const dialog =
+        <Dialog open={openDialog} onClose={handleOpenDialog} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Insert the new ID:
+                </DialogContentText>
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="newId"
+                    label="Id"
+                    type="text"
+                    fullWidth
+                    value={dialogValue}
+                    onChange={e => setDialogValue(e.target.innerText)}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={() => {
+                    handleOpenDialog()
+                    console.log(dialogValue)
+                }} color="primary">
+                    OK
+                </Button>
+            </DialogActions>
+        </Dialog>;
+
     return (
         <div>
             <Card id={cardId} className={classes.card}>
@@ -155,7 +196,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Set group ID">
-                            <IconButton onClick={() => setGroupId(data.name, "-1")}>
+                            <IconButton onClick={() => handleOpenDialog()}>
                                 <MenuOpenIcon/>
                             </IconButton>
                         </Tooltip>
