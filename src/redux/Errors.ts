@@ -61,7 +61,7 @@ export default function errorsReducer(state = initialState, action: PayloadActio
         case ADD_ERROR:
             const app = Array.from(state.data);
             app.push(payload);
-            const data = app.sort((a, b) => moment(a.dateTime).valueOf() - moment(b.dateTime).valueOf());
+            const data = app.sort((a, b) => moment(b.dateTime).valueOf() - moment(a.dateTime).valueOf());
 
             return {
                 ...state,

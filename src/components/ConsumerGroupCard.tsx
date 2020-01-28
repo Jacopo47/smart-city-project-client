@@ -113,7 +113,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                     {
                         consumers.map(e => {
                             const idle = moment.duration(e.idle);
-                            const convertedIdle = idle.minutes() + ":" + idle.seconds();
+                            const convertedIdle = idle.hours() + ":" + idle.minutes() + ":" + idle.seconds();
                             return <ListItem key={e.name}>
                                 <ListItemText
                                     primary={"Name: " + e.name}
