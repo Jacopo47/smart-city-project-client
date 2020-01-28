@@ -7,7 +7,9 @@ import {addErrors} from "../redux/Errors";
 const WebSocketClient: React.FC = () => {
     const dispatch = useDispatch();
 
-    const socket = io('http://localhost:9092');
+    const endpoint = process.env.REACT_APP_WS_ENDPOINT || 'http://localhost:9092';
+
+    const socket = io(endpoint);
 
     socket.on('sensor-read-update', (data: string) => {
         dispatch(updateSensorInfo(JSON.parse(data)))

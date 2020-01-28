@@ -3,7 +3,7 @@ import {OlapParams} from "./OlapParams";
 
 const DATE_FORMAT = 'DD-MM-YYYY';
 
-const API_ROOT = '//localhost:4700/';
+const API_ROOT = (process.env.REACT_APP_API_ENDPOINT || 'localhost:4700') + '/';
 
 function callApi(endpoint: string, post: boolean = false) {
     const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;

@@ -4,14 +4,20 @@ import {
     Card,
     CardContent,
     Collapse,
-    createStyles, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    createStyles,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     IconButton,
     List,
     ListItem,
     ListItemSecondaryAction,
     ListItemText,
     makeStyles,
-    Paper, TextField,
+    Paper,
+    TextField,
     Theme,
     Tooltip,
     Typography
@@ -24,6 +30,7 @@ import {fetchDeleteConsumer, fetchDestroyGroup, fetchSetGroupId} from "../model/
 import SnackBar from "./SnackBar";
 import {useDispatch} from "react-redux";
 import {loadConsumerGroupData} from "../redux/ConsumerGroupInfo";
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -161,7 +168,7 @@ const ConsumerGroupCard: React.FC<{ data: ConsumerGroup }> = (props: { data: Con
                     Cancel
                 </Button>
                 <Button onClick={() => {
-                    handleOpenDialog()
+                    handleOpenDialog();
                     console.log(dialogValue)
                 }} color="primary">
                     OK
