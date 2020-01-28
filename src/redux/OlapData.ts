@@ -112,8 +112,11 @@ export default function olapReducer(state = initialState, action: PayloadAction<
                 },
                 success: prevState => {
                     const app = Array.from(prevState.data);
-                    app.push(...payload.data);
+                    if (payload.data) {
+                        return {...prevState, data: []}
+                    }
 
+                    app.push(...payload.data);
                     return {...prevState, data: app}
                 }
             });
