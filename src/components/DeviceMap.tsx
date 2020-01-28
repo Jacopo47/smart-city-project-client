@@ -11,7 +11,6 @@ import {SensorInfoState} from "../redux/SensorInformation";
 import TimelineIcon from '@material-ui/icons/Timeline';
 import {Granularity, loadOlapData} from "../redux/OlapData";
 import {OlapParams} from "../model/OlapParams";
-import SnackBar from "./SnackBar";
 
 
 export const useStyles = makeStyles((theme: Theme) => createStyles({

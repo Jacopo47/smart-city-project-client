@@ -1,14 +1,21 @@
 import React from 'react';
 import clsx from 'clsx';
 import '../style/App.css';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
-    AppBar, Container,
+    AppBar,
+    Container,
     createStyles,
     CssBaseline,
     Divider,
-    Drawer, Grid,
-    IconButton, List, ListItem, ListItemIcon, ListItemText, makeStyles,
+    Drawer,
+    Grid,
+    IconButton,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    makeStyles,
     Theme,
     Toolbar,
     Typography
@@ -17,7 +24,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import {Dispatch} from "redux";
-import {openDrawer, closeDrawer, changeComponent,DashboardState, DashboardComponents} from '../redux/Dashboard';
+import {changeComponent, closeDrawer, DashboardComponents, openDrawer} from '../redux/Dashboard';
 import Dashboard from "../components/Dashboard";
 import {RootState} from "./rootReducer";
 
@@ -109,9 +116,9 @@ const DrawerList: React.FC = () => {
         <div>
             <ListItem button onClick={() => dispatch(changeComponent(DashboardComponents.Dashboard))}>
                 <ListItemIcon>
-                    <DashboardIcon />
+                    <DashboardIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Dashboard" />
+                <ListItemText primary="Dashboard"/>
             </ListItem>
         </div>
     )

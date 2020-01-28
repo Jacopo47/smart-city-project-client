@@ -1,26 +1,8 @@
 import React from "react";
-import {
-    Badge,
-    Card,
-    CardContent,
-    Collapse,
-    Container,
-    createStyles,
-    Grid,
-    IconButton,
-    makeStyles,
-    Paper,
-    Theme,
-    Tooltip,
-    Typography
-} from "@material-ui/core";
-import DeleteIcon from '@material-ui/icons/Delete';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import {Badge, Container, createStyles, Grid, makeStyles, Paper, Theme} from "@material-ui/core";
 import {RootState} from "../app/rootReducer";
 import {connect} from "react-redux";
 import {ConsumerGroupState} from "../redux/ConsumerGroupInfo";
-import moment, {Moment} from "moment";
-import {Consumer} from "../model/ConsumerGroup";
 import ConsumerGroupCard from "./ConsumerGroupCard";
 
 
