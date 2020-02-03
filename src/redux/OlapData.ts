@@ -41,7 +41,7 @@ export interface OlapDataState {
 
 export const LOAD_OLAP_DATA = 'LOAD_OLAP_DATA';
 export const SET_FROM = 'SET_FROM';
-export const SET_TO = 'SET_FROM';
+export const SET_TO = 'SET_TO';
 export const SET_GRANULARITY = 'SET_GRANULARITY';
 export const RESET = 'RESET';
 export const RESET_DATA = 'RESET_DATA';
@@ -112,7 +112,7 @@ export default function olapReducer(state = initialState, action: PayloadAction<
                 },
                 success: prevState => {
                     const app = Array.from(prevState.data);
-                    if (payload.data) {
+                    if (!payload.data) {
                         return {...prevState, data: []}
                     }
 
